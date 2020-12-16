@@ -1,29 +1,32 @@
-var socket = io.connect('http://localhost:8080', { 'forceNew': true });
-//Parte del cliente conectamos con localhost
-//escuchamos el evento messages
-// data tendr� el array de mensajes  que env�a el servidor
-socket.on('messages', function(data) {  
-  console.log(data);
-  render(data);
+var socket = io()
+
+const enviar = document.getElementById('enviar');
+
+enviar.addEventListener('click', ()=>{
+    var mensaje = document.getElementById('texto');
+    var name = document.getElementById('username').value
+    
+    var objMss = {
+        mensaje: mensaje.value,
+        name 
+    }
+
+    if(mensaje.value != ''){
+        socket.emit('nuevo mensaje', objMss);
+        mensaje.value = '';
+    }else{
+        alert('No puede enviar un mensaje vacio');
+    }
 })
-// esta función se encarga de pintar en el HTML los mensajes
-function render (data) {  
-  var html = data.map(function(elem, index) {
-    return(`<div>
-              <strong>${elem.author}</strong>:
-              <em>${elem.text}</em>
-            </div>`);
-  }).join(" ");
 
-  document.getElementById('messages').innerHTML = html;
-}
+socket.on('nuevo mensaje servidor', data => {
+    var lista_mensajes = document.getElementById('messages');
+    var html = `<strong>${data.name}:</strong> ${data.mensaje}`;
+    var div = document.createElement("div");
+    div.classList.add("card-panel")
+    div.classList.add("messages")
+    div.innerHTML = html
+    lista_mensajes.appendChild(div)
+})
 
-function addMessage(e) {  
-  var message = {
-    author: document.getElementById('username').value,
-    text: document.getElementById('texto').value
-  };
-
-  socket.emit('new-message', message);
-  return false;
-}
+ 
