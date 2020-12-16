@@ -21,7 +21,7 @@ enviar.addEventListener('click', ()=>{
 
 socket.on('nuevo mensaje servidor', data => {
     var lista_mensajes = document.getElementById('nuevo_mensaje');
-    var html = `<strong>${data.name}:</strong> ${data.mensaje}`;
+    var html = data
     var div = document.createElement("div");
     div.classList.add("card-panel")
     div.classList.add("mensaje")
