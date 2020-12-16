@@ -25,7 +25,7 @@ io.on('connection', function(socket) {
     io.sockets.emit('messages', messages);
   });
 });
-var port = process.env.PORT || 3000;
-server.listen(port, function() {  
-  console.log("Servidor corriendo en el puerto 3000");
+
+server.listen(8080, function() {  
+  console.log("Servidor corriendo en http://localhost:8080");
 });
